@@ -10,6 +10,9 @@ class Tube {
   private int tubeModulus;
   private int tripodNumber;
 
+  private boolean amIBroken0 = false;
+  private boolean amIBroken1 = false;
+
   ArrayList<Block> blocks = new ArrayList<Block>();
 
   boolean effectSide0 = false;
@@ -58,11 +61,32 @@ class Tube {
 
   // Executed every frame, for updating continiously things
   void update() {
+    shutOffTheBroken();
 
     for (int i = 0; i < blocks.size(); i++) {
       Block block = blocks.get(i);
 
       block.display();
+    }
+  }
+
+  void shutOffTheBroken() {
+    if (amIBroken0 == true || amIBroken1 == true) {
+      pushMatrix();
+      translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21); 
+      pushStyle();
+      noStroke();
+      fill(255, 0, 0);
+      if (amIBroken0 == true) {
+        rect((tubeLength/2)*0, 0, tubeLength/2, rectHeight);
+      }
+      if (amIBroken1 == true) {
+        rect((tubeLength/2)*1, 0, tubeLength/2, rectHeight);
+      }
+      popStyle();
+      popMatrix();
+      
+      print("HET WERKT: ", amIBroken0, amIBroken1);
     }
   }
 }

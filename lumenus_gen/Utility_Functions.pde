@@ -76,6 +76,22 @@ void selectingSystem() {
   popMatrix();
 }
 
+void brokenTubes() {
+  for (int i = 0; i < brokenTubes[0].length; i++) {
+
+    int tube = brokenTubes[0][i];
+    int touchSide = brokenTubes[1][i];
+    
+    println(tube + "," + touchSide);
+
+    if (touchSide == 0) {
+      tubes[tube].amIBroken0 = true;
+    } else if (touchSide == 1) {
+      tubes[tube].amIBroken1 = true;
+    }
+  }
+}
+
 void addButtonsOnScreen() {
 
   cp5 = new ControlP5(this);

@@ -19,6 +19,8 @@ int testGroupNumber;
 int opacityGreenTransition = 0;
 
 boolean startExperiment = false;
+
+int[][] brokenTubes = {{7,18, 0, 0, 6, 6, 5}, {1, 1, 0, 1, 0, 1, 0}};
 //---------------------------------------------------------------------------------------------------
 
 int numTripods = 24;
@@ -52,6 +54,8 @@ void setup() {
   }
   
   addButtonsOnScreen();
+  
+  brokenTubes();
 
   //drawRaster(); // drawRaster helps us with the LED mapping in ELM
 
