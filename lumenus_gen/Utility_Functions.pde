@@ -81,8 +81,6 @@ void brokenTubes() {
 
     int tube = brokenTubes[0][i];
     int touchSide = brokenTubes[1][i];
-    
-    println(tube + "," + touchSide);
 
     if (touchSide == 0) {
       tubes[tube].amIBroken0 = true;
@@ -123,8 +121,6 @@ void addButtonsOnScreen() {
 
 void StartButtonPressed() {
   testGroupNumberString = cp5.get(Textfield.class, "group").getText();
-  
-  println(testGroupNumberString);
 
   testGroupNumber = int(testGroupNumberString);
 

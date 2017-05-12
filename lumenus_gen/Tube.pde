@@ -14,6 +14,8 @@ class Tube {
   private boolean amIBroken1 = false;
 
   ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<GlitterEffect> glitterEffects = new ArrayList<GlitterEffect>();
+  ArrayList<ExplosionEffect> explosionEffects = new ArrayList<ExplosionEffect>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -68,6 +70,42 @@ class Tube {
 
       block.display();
     }
+
+    for (int i = glitterEffects.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glitterEffects.get(i);
+
+      glitterEffect.update();
+
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glitterEffects.remove(i);
+      }
+    }
+    
+    for (int i = explosionEffects.size() - 1; i >= 0; i--) {
+      ExplosionEffect explosionEffect = explosionEffects.get(i);
+
+      explosionEffect.update();
+
+      if (!explosionEffect.timeFinished()) {
+        explosionEffect.generate();
+      }
+
+      if (explosionEffect.animationFinished()) {
+        explosionEffects.remove(i);
+      }
+    }
+  }
+
+  void addGlitter() {
+    glitterEffects.add(new GlitterEffect(this.tubeModulus, this.tripodNumber));
+  }
+  
+  void addExplosion() {
+    explosionEffects.add(new ExplosionEffect(this.tubeModulus, this.tripodNumber));
   }
 
   void shutOffTheBroken() {
@@ -85,8 +123,6 @@ class Tube {
       }
       popStyle();
       popMatrix();
-      
-      print("HET WERKT: ", amIBroken0, amIBroken1);
     }
   }
 }

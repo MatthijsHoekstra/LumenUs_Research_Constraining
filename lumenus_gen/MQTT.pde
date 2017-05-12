@@ -20,8 +20,6 @@ void messageReceived(String topic, byte[] payload) {
 
   sideTouchedReceived = Integer.parseInt(receivedMQTT[5]);
 
-  println(tripodNumberReceived + "," + tubeModulusReceived + "," + sideTouchedReceived);
-
   payLoadReceived = int(payload[0]) - 48;
 
   tubeNumberReceived = tripodNumberReceived*3 + tubeModulusReceived;

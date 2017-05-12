@@ -1,3 +1,4 @@
+import AULib.*;
 import spout.*;
 import controlP5.*;
 
@@ -135,6 +136,10 @@ void keyPressed() {
 
   if (key == 'w') {
     tubes[tubeNumber].isTouched(1);
+  }
+  
+  if (key == 'e') {
+    tubes[tubeNumber].addGlitter();
   }
 }
 
