@@ -14,10 +14,12 @@ boolean startTimer = false;
 int startTimeTimer;
 int currentTimeTimer;
 
-int totalTimeTimer = 5000;
+int totalTimeTimer = 25000;
 
 String testGroupNumberString;
 int testGroupNumber;
+
+int experimentNumberFinal;
 
 
 boolean startExperiment = false;
@@ -34,11 +36,11 @@ int counterBalancingGroup[][] =
 };    
 
 
-int[][] brokenTubes = {{7,18, 0, 0, 6, 6, 5}, {1, 1, 0, 1, 0, 1, 0}};
+int[][] brokenTubes = {{7, 0, 0, 6, 6, 5}, {1, 0, 1, 0, 1, 0}};
 
 //---------------------------------------------------------------------------------------------------
 
-int numTripods = 24;
+int numTripods = 4;
 int numTubes = numTripods * 3;
 int numLEDsPerTube = 56;
 
@@ -65,7 +67,7 @@ ControlP5 cp5;
 
 void setup() {
   size(1600, 880, OPENGL);
-  frameRate(120);
+  frameRate(45);
   background(0);
   noStroke();
   noSmooth();
@@ -103,14 +105,13 @@ void draw() {
 
   background(0);
 
-
+  researchFunctions();
 
   for (int i=0; i<numTubes; i++) {
     tubes[i].update();
   }
 
-  researchFunctions();
-  
+
   ShowFrameRate();
 
   selectingSystem();

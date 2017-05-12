@@ -12,11 +12,10 @@ class Tube {
 
   ArrayList<Block> Blocks = new ArrayList<Block>();
   ArrayList<EffectBlock> EffectBlocks = new ArrayList<EffectBlock>();
-  
+
   private boolean amIBroken0 = false;
   private boolean amIBroken1 = false;
 
-  ArrayList<Block> blocks = new ArrayList<Block>();
   ArrayList<GlitterEffect> glitterEffects = new ArrayList<GlitterEffect>();
   ArrayList<ExplosionEffect> explosionEffects = new ArrayList<ExplosionEffect>();
 
@@ -30,20 +29,48 @@ class Tube {
   }
 
   //Event when tube is touched
-  
+
 
   void isTouched(int touchLocation) {
-    if (touchLocation == 0 && effectSide0 == false) {
-      EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 0, experimentNumber, false));
 
-      effectSide0 = true;
+    if (experimentNumberFinal == 1) {
+      summon("random");
+    } else if (experimentNumberFinal == 2) {
+      for (int i = 0; i < EffectBlocks.size(); i++) {
+        EffectBlock effectblocks = EffectBlocks.get(i);
+
+        if (effectblocks.touchLocation == touchLocation) {
+          EffectBlocks.remove(i);
+          summon("random");
+
+          createEffectBlock();
+        }
+      }
+    } else if (experimentNumberFinal == 3) {
+      for (int i = 0; i < EffectBlocks.size(); i++) {
+        EffectBlock effectblocks = EffectBlocks.get(i);
+
+        if (effectblocks.touchLocation == touchLocation) {
+          EffectBlocks.remove(i);
+          summon("random");
+
+          createEffectBlock();
+        }
+      }
     }
 
-    if (touchLocation == 1 && effectSide1 == false) {
-      EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 1, experimentNumber, false));
 
-      effectSide1 = true;
-    }
+    //if (touchLocation == 0 && effectSide0 == false) {
+    //  EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 0, experimentNumber, false));
+
+    //  effectSide0 = true;
+    //}
+
+    //if (touchLocation == 1 && effectSide1 == false) {
+    //  EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 1, experimentNumber, false));
+
+    //  effectSide1 = true;
+    //}
   }
 
   //Event when tube is released
@@ -73,8 +100,8 @@ class Tube {
       EffectBlock effectblock = EffectBlocks.get(i);
 
       effectblock.display();
-      
-      if (effectblock.finished()){
+
+      if (effectblock.finished()) {
         EffectBlocks.remove(i);
         createEffectBlock();
       }
@@ -93,26 +120,26 @@ class Tube {
         glitterEffects.remove(i);
       }
     }
-    
-    for (int i = explosionEffects.size() - 1; i >= 0; i--) {
-      ExplosionEffect explosionEffect = explosionEffects.get(i);
 
-      explosionEffect.update();
+    //for (int i = explosionEffects.size() - 1; i >= 0; i--) {
+    //  ExplosionEffect explosionEffect = explosionEffects.get(i);
 
-      if (!explosionEffect.timeFinished()) {
-        explosionEffect.generate();
-      }
+    //  explosionEffect.update();
 
-      if (explosionEffect.animationFinished()) {
-        explosionEffects.remove(i);
-      }
-    }
+    //  if (!explosionEffect.timeFinished()) {
+    //    explosionEffect.generate();
+    //  }
+
+    //  if (explosionEffect.animationFinished()) {
+    //    explosionEffects.remove(i);
+    //  }
+    //}
   }
 
   void addGlitter() {
     glitterEffects.add(new GlitterEffect(this.tubeModulus, this.tripodNumber));
   }
-  
+
   void addExplosion() {
     explosionEffects.add(new ExplosionEffect(this.tubeModulus, this.tripodNumber));
   }
@@ -134,8 +161,15 @@ class Tube {
       popMatrix();
     }
   }
-  
-  void summon(String effectToSummon){
-    
+
+  void summon(String effectToSummon) {
+
+    if (effectToSummon.equals("random") == true) {
+      println("pieuw pieuw mooi effect");
+    }
+
+    if (effectToSummon.equals("random") == true) {
+      println("pieuw pieuw mooi effect");
+    }
   }
 }

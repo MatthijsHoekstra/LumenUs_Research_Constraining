@@ -135,16 +135,21 @@ void StartButtonPressed() {
   startTimer = true;
   inBetweenResearch = false;
 
-  int randomTubeNumber = int(random(numTubes));
+  experimentNumberFinal = counterBalancingGroup[testGroupNumber][experimentNumber];
 
-  tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumber, int(round(random(1))), false));
 
-  for (int i=0; i < 5; i++) {
-    randomTubeNumber = int(random(numTubes));
+  if (experimentNumberFinal != 1) {
+    int randomTubeNumber = int(random(numTubes));
 
-    tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumber, int(round(random(1))), true));
+    tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumberFinal, int(random(1.99)), false));
+
+    for (int i=0; i < 5; i++) {
+      randomTubeNumber = int(random(numTubes));
+
+      tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumberFinal, int(random(1.99)), true));
+    }
   }
-  
+
   println("Start Experiment: " + experimentNumber);
 }
 

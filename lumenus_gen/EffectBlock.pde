@@ -3,7 +3,7 @@ class EffectBlock {
   int tubeModulus;
   int tripodNumber;
   int touchLocation;
-  int expirementNumber;
+  int experimentNumber;
 
   private int timeCreated;
   private int livingTime;
@@ -15,11 +15,13 @@ class EffectBlock {
 
   boolean fadeOutImmediate = false;
 
-  EffectBlock(int tripodNumber, int tubeModulus, int touchLocation, int expirementNumber, boolean delay) {
+  EffectBlock(int tripodNumber, int tubeModulus, int _expirementNumber, int touchLocation, boolean delay) {
     this.tubeModulus = tubeModulus;
     this.tripodNumber = tripodNumber;
 
     this.touchLocation = touchLocation;
+
+    this.experimentNumber = experimentNumberFinal;
 
     timeCreated = millis();
 
@@ -27,10 +29,10 @@ class EffectBlock {
 
     livingTime = 2000;
 
-    println("EffectBlock created, position: " + this.tripodNumber + " , " + this.tubeModulus);
+    println("EffectBlock created, position: " + this.tripodNumber + " , " + this.tubeModulus + " , experimentNumber:" + experimentNumberFinal);
 
     if (delay) {
-      timeCreated += random(5000);
+      timeCreated += random(3500);
     }
   }
 
@@ -38,19 +40,36 @@ class EffectBlock {
     pushMatrix();
     translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
 
-    if (millis() < timeCreated + fadeInOutTime) {
-      float currentTime = map(millis(), timeCreated, timeCreated + fadeInOutTime, 0, 1);
-      float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
-      opacity = int(map(interValue, 0, 1, 0, 255));
-    } else if (millis() > timeCreated + fadeInOutTime && millis() < timeCreated + fadeInOutTime + livingTime) {
-      opacity = 255;
-    } else if (millis() < timeCreated + fadeInOutTime*2 + livingTime) {
-      float currentTime = map(millis(), timeCreated+fadeInOutTime+livingTime, timeCreated+fadeInOutTime*2+livingTime, 0, 1);
-      float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
-      opacity = int(map(interValue, 0, 1, 255, 0));
+    // ----- Fade in out automatically for experiment setting 2
 
-      if (opacity == 0) {
-        effectFinished = true;
+    if (experimentNumber == 2) {
+
+      if (millis() < timeCreated + fadeInOutTime) {
+        float currentTime = map(millis(), timeCreated, timeCreated + fadeInOutTime, 0, 1);
+        float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+        opacity = int(map(interValue, 0, 1, 0, 255));
+      } else if (millis() >= timeCreated + fadeInOutTime && millis() <= timeCreated + fadeInOutTime + livingTime) {
+        opacity = 255;
+      } else if (millis() <= timeCreated + fadeInOutTime*2 + livingTime) {
+        float currentTime = map(millis(), timeCreated+fadeInOutTime+livingTime, timeCreated+fadeInOutTime*2+livingTime, 0, 1);
+        float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+        opacity = int(map(interValue, 0, 1, 255, 0));
+
+        if (opacity == 0) {
+          effectFinished = true;
+        }
+      }
+    }
+
+    // ------
+
+    if (experimentNumber == 3) {
+      if (millis() < timeCreated + fadeInOutTime) {
+        float currentTime = map(millis(), timeCreated, timeCreated + fadeInOutTime, 0, 1);
+        float interValue = AULib.ease(AULib.EASE_IN_OUT_CUBIC, currentTime);
+        opacity = int(map(interValue, 0, 1, 0, 255));
+      } else if (millis() >= timeCreated + fadeInOutTime) {
+        opacity = 255;
       }
     }
 
