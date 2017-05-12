@@ -6,7 +6,7 @@ class Block {
   int tripodNumber;
   int touchLocation;
 
-    Block(int tubeModulus, int tripodNumber, int touchLocation) {
+  Block(int tubeModulus, int tripodNumber, int touchLocation) {
 
     this.tubeModulus = tubeModulus;
     this.tripodNumber = tripodNumber;
@@ -19,9 +19,9 @@ class Block {
 
     pushMatrix();
     translate(this.tubeModulus * (numLEDsPerTube * rectWidth) + (this.tubeModulus * 20 + 20), this.tripodNumber * 21 + 21);
-    
+
     pushStyle();
-    
+
     fill(255);
 
     if (this.touchLocation == 0) {
@@ -31,7 +31,7 @@ class Block {
     if (this.touchLocation == 1) {
       rect(tubeLength/2, 0, tubeLength/2, rectHeight);
     }
-    
+
     popStyle();
     popMatrix();
   }

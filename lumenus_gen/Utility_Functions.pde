@@ -40,7 +40,7 @@ void drawRaster() {
 void ShowFrameRate() {
   pushStyle();
   fill(200);
-  text(int(frameRate) + " " + currentSelectedTube + " " + currentSelectedTripod, 5, 16);
+  text(int(frameRate) + " " + currentSelectedTripod + " " + currentSelectedTube +  " // Current time experiment: " + currentTimeTimer + " // Current experiment: " + (experimentNumber + 1), 100, height - 250);
   popStyle();
 }
 
@@ -65,10 +65,10 @@ void selectingSystem() {
   //Create rectangle for indicating which tube / tripod is selected
   pushMatrix();
   translate(currentSelectedTube * (numLEDsPerTube * rectWidth) + (currentSelectedTube * 20 + 20), currentSelectedTripod * 21 + 21); 
-  
+
   pushStyle();
   noFill();
-  
+
   stroke(0, 255, 0);
   rect(x-5, y-5, tubeLength+8, rectHeight+9);
 
@@ -107,16 +107,45 @@ void addButtonsOnScreen() {
 
 void StartButtonPressed() {
   testGroupNumberString = cp5.get(Textfield.class, "group").getText();
-  
+
   println(testGroupNumberString);
 
   testGroupNumber = int(testGroupNumberString);
+
+  experimentNumber ++;
 
   if (startExperiment == false) {
     startExperiment = true;
   }
 
-  experimentNumber ++;
-
   startTimer = true;
+  inBetweenResearch = false;
+
+  int randomTubeNumber = int(random(numTubes));
+
+  tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumber, int(round(random(1))), false));
+
+  for (int i=0; i < 5; i++) {
+    randomTubeNumber = int(random(numTubes));
+
+    tubes[randomTubeNumber].EffectBlocks.add(new EffectBlock(tubes[randomTubeNumber].tripodNumber, tubes[randomTubeNumber].tubeModulus, experimentNumber, int(round(random(1))), true));
+  }
+  
+  println("Start Experiment: " + experimentNumber);
+}
+
+void summonEffect(String effectToSummon, int tripodNumber, int tubeModulus, int sideTouched) {
+  boolean effectAvailable = false;
+  int tubeNumber = tripodNumber * 3 + tubeModulus;
+
+  for (int i = 0; i > Effects.length; i++) {
+    if (Effects[i].equals(effectToSummon) == true) {
+      effectAvailable = true;
+      break;
+    }
+  }
+
+  if (effectAvailable) {
+    tubes[tubeNumber].summon(effectToSummon);
+  }
 }

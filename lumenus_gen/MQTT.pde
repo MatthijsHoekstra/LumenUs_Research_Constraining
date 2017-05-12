@@ -19,7 +19,7 @@ void messageReceived(String topic, byte[] payload) {
   tubeModulusReceived = Integer.parseInt(receivedMQTT[3]);
 
   sideTouchedReceived = Integer.parseInt(receivedMQTT[5]);
-  
+
   println(tripodNumberReceived + "," + tubeModulusReceived + "," + sideTouchedReceived);
 
   payLoadReceived = int(payload[0]) - 48;

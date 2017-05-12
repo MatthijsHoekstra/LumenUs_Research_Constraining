@@ -10,7 +10,8 @@ class Tube {
   private int tubeModulus;
   private int tripodNumber;
 
-  ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<Block> Blocks = new ArrayList<Block>();
+  ArrayList<EffectBlock> EffectBlocks = new ArrayList<EffectBlock>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -22,16 +23,17 @@ class Tube {
   }
 
   //Event when tube is touched
+  
 
   void isTouched(int touchLocation) {
     if (touchLocation == 0 && effectSide0 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 0));
+      EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 0, experimentNumber, false));
 
       effectSide0 = true;
     }
 
     if (touchLocation == 1 && effectSide1 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 1));
+      EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 1, experimentNumber, false));
 
       effectSide1 = true;
     }
@@ -40,29 +42,38 @@ class Tube {
   //Event when tube is released
 
   void isUnTouched(int touchLocation) {
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
+    //for (int i = 0; i < Blocks.size(); i++) {
+    //  EffectBlock effectblock = EffectBlocks.get(i);
 
-      if (block.touchLocation == touchLocation) {
-        blocks.remove(i);
+    //  if (effectblock.touchLocation == touchLocation) {
+    //    EffectBlocks.remove(i);
 
-        if (touchLocation == 0) {
-          effectSide0 = false;
-        }
-        if (touchLocation == 1) {
-          effectSide1 = false;
-        }
-      }
-    }
+    //    if (touchLocation == 0) {
+    //      effectSide0 = false;
+    //    }
+    //    if (touchLocation == 1) {
+    //      effectSide1 = false;
+    //    }
+    //  }
+    //}
   }
 
   // Executed every frame, for updating continiously things
   void update() {
 
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
+    for (int i = 0; i < EffectBlocks.size(); i++) {
+      EffectBlock effectblock = EffectBlocks.get(i);
 
-      block.display();
+      effectblock.display();
+      
+      if (effectblock.finished()){
+        EffectBlocks.remove(i);
+        createEffectBlock();
+      }
     }
+  }
+  
+  void summon(String effectToSummon){
+    
   }
 }
