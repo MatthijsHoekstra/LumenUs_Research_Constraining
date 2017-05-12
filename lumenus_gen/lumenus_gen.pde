@@ -1,6 +1,6 @@
+import AULib.*;
 import spout.*;
 import controlP5.*;
-import AULib.*;
 
 import java.lang.reflect.*;
 
@@ -22,7 +22,7 @@ int testGroupNumber;
 
 boolean startExperiment = false;
 
-//
+
 int counterBalancingGroup[][] = 
   {
   {1, 2, 3}, 
@@ -34,6 +34,7 @@ int counterBalancingGroup[][] =
 };    
 
 
+int[][] brokenTubes = {{7,18, 0, 0, 6, 6, 5}, {1, 1, 0, 1, 0, 1, 0}};
 
 //---------------------------------------------------------------------------------------------------
 
@@ -74,6 +75,8 @@ void setup() {
   }
 
   addButtonsOnScreen();
+  
+  brokenTubes();
 
   //drawRaster(); // drawRaster helps us with the LED mapping in ELM
 
@@ -158,9 +161,13 @@ void keyPressed() {
   if (key == 'w') {
     tubes[tubeNumber].isTouched(1);
   }
-
+  
   if (key == 'e') {
     summonEffect("glitter", 0, 0, 0);
+  }
+  
+  if (key == 'e') {
+    tubes[tubeNumber].addGlitter();
   }
 }
 

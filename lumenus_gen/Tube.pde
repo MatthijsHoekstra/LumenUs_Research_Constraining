@@ -12,6 +12,13 @@ class Tube {
 
   ArrayList<Block> Blocks = new ArrayList<Block>();
   ArrayList<EffectBlock> EffectBlocks = new ArrayList<EffectBlock>();
+  
+  private boolean amIBroken0 = false;
+  private boolean amIBroken1 = false;
+
+  ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<GlitterEffect> glitterEffects = new ArrayList<GlitterEffect>();
+  ArrayList<ExplosionEffect> explosionEffects = new ArrayList<ExplosionEffect>();
 
   boolean effectSide0 = false;
   boolean effectSide1 = false;
@@ -60,6 +67,7 @@ class Tube {
 
   // Executed every frame, for updating continiously things
   void update() {
+    shutOffTheBroken();
 
     for (int i = 0; i < EffectBlocks.size(); i++) {
       EffectBlock effectblock = EffectBlocks.get(i);
@@ -70,6 +78,60 @@ class Tube {
         EffectBlocks.remove(i);
         createEffectBlock();
       }
+    }
+
+    for (int i = glitterEffects.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glitterEffects.get(i);
+
+      glitterEffect.update();
+
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glitterEffects.remove(i);
+      }
+    }
+    
+    for (int i = explosionEffects.size() - 1; i >= 0; i--) {
+      ExplosionEffect explosionEffect = explosionEffects.get(i);
+
+      explosionEffect.update();
+
+      if (!explosionEffect.timeFinished()) {
+        explosionEffect.generate();
+      }
+
+      if (explosionEffect.animationFinished()) {
+        explosionEffects.remove(i);
+      }
+    }
+  }
+
+  void addGlitter() {
+    glitterEffects.add(new GlitterEffect(this.tubeModulus, this.tripodNumber));
+  }
+  
+  void addExplosion() {
+    explosionEffects.add(new ExplosionEffect(this.tubeModulus, this.tripodNumber));
+  }
+
+  void shutOffTheBroken() {
+    if (amIBroken0 == true || amIBroken1 == true) {
+      pushMatrix();
+      translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21); 
+      pushStyle();
+      noStroke();
+      fill(255, 0, 0);
+      if (amIBroken0 == true) {
+        rect((tubeLength/2)*0, 0, tubeLength/2, rectHeight);
+      }
+      if (amIBroken1 == true) {
+        rect((tubeLength/2)*1, 0, tubeLength/2, rectHeight);
+      }
+      popStyle();
+      popMatrix();
     }
   }
   
