@@ -15,13 +15,13 @@ class EffectBlock {
 
   boolean fadeOutImmediate = false;
 
-  EffectBlock(int tripodNumber, int tubeModulus, int _expirementNumber, int touchLocation, boolean delay) {
+  EffectBlock(int tripodNumber, int tubeModulus, int expirementNumber, int touchLocation, boolean delay) {
     this.tubeModulus = tubeModulus;
     this.tripodNumber = tripodNumber;
 
     this.touchLocation = touchLocation;
 
-    this.experimentNumber = experimentNumberFinal;
+    this.experimentNumber = expirementNumber;
 
     timeCreated = millis();
 
