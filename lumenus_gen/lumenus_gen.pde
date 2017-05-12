@@ -1,5 +1,6 @@
-import spout.*;
+//import spout.*;
 import controlP5.*;
+import AULib.*;
 
 //---------------------------------------------------------------------------------------------------
 int experimentNumber = -1; //4 possible options
@@ -36,7 +37,7 @@ int selectedTube, tubeNumber;
 
 Tube[] tubes = new Tube[numTubes];
 
-Spout spout;
+//Spout spout;
 
 ControlP5 cp5;
 
@@ -71,7 +72,7 @@ void setup() {
   //}
 
 
-  spout = new Spout(this);
+ // spout = new Spout(this);
 }
 
 void draw() {
@@ -88,7 +89,7 @@ void draw() {
 
   drawRaster();
 
-  spout.sendTexture();
+  //spout.sendTexture();
 }
 
 void keyPressed() {

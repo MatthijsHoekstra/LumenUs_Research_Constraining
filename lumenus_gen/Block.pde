@@ -10,9 +10,7 @@ class Block {
 
     this.tubeModulus = tubeModulus;
     this.tripodNumber = tripodNumber;
-
     this.touchLocation = touchLocation;
-  }
 
 
   void display() {

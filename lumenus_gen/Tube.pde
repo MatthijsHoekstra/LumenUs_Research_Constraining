@@ -12,6 +12,7 @@ class Tube {
 
   ArrayList<Block> blocks = new ArrayList<Block>();
 
+
   boolean effectSide0 = false;
   boolean effectSide1 = false;
 
