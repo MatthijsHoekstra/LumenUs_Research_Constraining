@@ -14,7 +14,7 @@ boolean startTimer = false;
 int startTimeTimer;
 int currentTimeTimer;
 
-int totalTimeTimer = 25000;
+int totalTimeTimer = 15000;
 
 String testGroupNumberString;
 int testGroupNumber;
@@ -36,7 +36,7 @@ int counterBalancingGroup[][] =
 };    
 
 
-int[][] brokenTubes = {{7, 0, 0, 6, 6, 5}, {1, 0, 1, 0, 1, 0}};
+int[][] brokenTubes = {{}};
 
 String[] EffectsAvailable = {"Glitter"};
 float[] EffectsWeights =    {5, 1};

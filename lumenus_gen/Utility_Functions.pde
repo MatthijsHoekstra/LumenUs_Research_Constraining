@@ -124,7 +124,7 @@ void StartButtonPressed() {
 
   println(testGroupNumberString);
 
-  testGroupNumber = int(testGroupNumberString);
+  experimentNumberFinal = int(testGroupNumberString);
 
   experimentNumber ++;
 
@@ -134,9 +134,6 @@ void StartButtonPressed() {
 
   startTimer = true;
   inBetweenResearch = false;
-
-  experimentNumberFinal = counterBalancingGroup[testGroupNumber][experimentNumber];
-
 
   if (experimentNumberFinal != 1) {
     int randomTubeNumber = int(random(numTubes));
