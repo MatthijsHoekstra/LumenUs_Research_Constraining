@@ -1,6 +1,9 @@
+
 import AULib.*;
 import spout.*;
+
 import controlP5.*;
+import AULib.*;
 
 import java.lang.reflect.*;
 
@@ -105,7 +108,7 @@ void setup() {
   //}
 
 
-  spout = new Spout(this);
+ spout = new Spout(this);
 }
 
 void draw() {
@@ -125,7 +128,7 @@ void draw() {
 
  // drawRaster();
 
-  spout.sendTexture();
+  //spout.sendTexture();
 }
 
 void keyPressed() {

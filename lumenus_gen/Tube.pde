@@ -19,6 +19,7 @@ class Tube {
   ArrayList<GlitterEffect> glitterEffects = new ArrayList<GlitterEffect>();
   ArrayList<ExplosionEffect> explosionEffects = new ArrayList<ExplosionEffect>();
 
+
   boolean effectSide0 = false;
   boolean effectSide1 = false;
 
