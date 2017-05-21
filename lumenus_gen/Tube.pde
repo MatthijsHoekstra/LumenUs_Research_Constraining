@@ -10,7 +10,14 @@ class Tube {
   private int tubeModulus;
   private int tripodNumber;
 
-  ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<Block> Blocks = new ArrayList<Block>();
+  ArrayList<EffectBlock> EffectBlocks = new ArrayList<EffectBlock>();
+
+  private boolean amIBroken0 = false;
+  private boolean amIBroken1 = false;
+
+  ArrayList<GlitterEffect> glitterEffects = new ArrayList<GlitterEffect>();
+  ArrayList<ExplosionEffect> explosionEffects = new ArrayList<ExplosionEffect>();
 
 
   boolean effectSide0 = false;
@@ -24,46 +31,158 @@ class Tube {
 
   //Event when tube is touched
 
+
   void isTouched(int touchLocation) {
-    if (touchLocation == 0 && effectSide0 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 0));
 
-      effectSide0 = true;
+    if (experimentNumberFinal == 1) {
+      summon("random");
+    } else if (experimentNumberFinal == 2) {
+      for (int i = 0; i < EffectBlocks.size(); i++) {
+        EffectBlock effectblocks = EffectBlocks.get(i);
+
+        if (effectblocks.touchLocation == touchLocation) {
+          EffectBlocks.remove(i);
+          summon("random");
+
+          createEffectBlock();
+        }
+      }
+    } else if (experimentNumberFinal == 3) {
+      for (int i = 0; i < EffectBlocks.size(); i++) {
+        EffectBlock effectblocks = EffectBlocks.get(i);
+
+        if (effectblocks.touchLocation == touchLocation) {
+          EffectBlocks.remove(i);
+          summon("random");
+
+          createEffectBlock();
+        }
+      }
     }
 
-    if (touchLocation == 1 && effectSide1 == false) {
-      blocks.add(new Block(tubeModulus, tripodNumber, 1));
 
-      effectSide1 = true;
-    }
+    //if (touchLocation == 0 && effectSide0 == false) {
+    //  EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 0, experimentNumber, false));
+
+    //  effectSide0 = true;
+    //}
+
+    //if (touchLocation == 1 && effectSide1 == false) {
+    //  EffectBlocks.add(new EffectBlock(tripodNumber, tubeModulus, 1, experimentNumber, false));
+
+    //  effectSide1 = true;
+    //}
   }
 
   //Event when tube is released
 
   void isUnTouched(int touchLocation) {
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
+    //for (int i = 0; i < Blocks.size(); i++) {
+    //  EffectBlock effectblock = EffectBlocks.get(i);
 
-      if (block.touchLocation == touchLocation) {
-        blocks.remove(i);
+    //  if (effectblock.touchLocation == touchLocation) {
+    //    EffectBlocks.remove(i);
 
-        if (touchLocation == 0) {
-          effectSide0 = false;
-        }
-        if (touchLocation == 1) {
-          effectSide1 = false;
-        }
-      }
-    }
+    //    if (touchLocation == 0) {
+    //      effectSide0 = false;
+    //    }
+    //    if (touchLocation == 1) {
+    //      effectSide1 = false;
+    //    }
+    //  }
+    //}
   }
 
   // Executed every frame, for updating continiously things
   void update() {
+    shutOffTheBroken();
 
-    for (int i = 0; i < blocks.size(); i++) {
-      Block block = blocks.get(i);
+    for (int i = 0; i < EffectBlocks.size(); i++) {
+      EffectBlock effectblock = EffectBlocks.get(i);
 
-      block.display();
+      effectblock.display();
+
+      if (effectblock.finished()) {
+        EffectBlocks.remove(i);
+        createEffectBlock();
+      }
+    }
+
+    for (int i = glitterEffects.size() - 1; i >= 0; i--) {
+      GlitterEffect glitterEffect = glitterEffects.get(i);
+
+      glitterEffect.update();
+
+      if (!glitterEffect.timeFinished()) {
+        glitterEffect.generate();
+      }
+
+      if (glitterEffect.animationFinished()) {
+        glitterEffects.remove(i);
+      }
+    }
+
+    //for (int i = explosionEffects.size() - 1; i >= 0; i--) {
+    //  ExplosionEffect explosionEffect = explosionEffects.get(i);
+
+    //  explosionEffect.update();
+
+    //  if (!explosionEffect.timeFinished()) {
+    //    explosionEffect.generate();
+    //  }
+
+    //  if (explosionEffect.animationFinished()) {
+    //    explosionEffects.remove(i);
+    //  }
+    //}
+  }
+
+  void addGlitter() {
+    glitterEffects.add(new GlitterEffect(this.tubeModulus, this.tripodNumber));
+  }
+
+  void addExplosion() {
+    explosionEffects.add(new ExplosionEffect(this.tubeModulus, this.tripodNumber));
+  }
+
+  void shutOffTheBroken() {
+    if (amIBroken0 == true || amIBroken1 == true) {
+      pushMatrix();
+      translate(tubeModulus * (numLEDsPerTube * rectWidth) + (tubeModulus * 20 + 20), tripodNumber * 21 + 21); 
+      pushStyle();
+      noStroke();
+      fill(255, 0, 0);
+      if (amIBroken0 == true) {
+        rect((tubeLength/2)*0, 0, tubeLength/2, rectHeight);
+      }
+      if (amIBroken1 == true) {
+        rect((tubeLength/2)*1, 0, tubeLength/2, rectHeight);
+      }
+      popStyle();
+      popMatrix();
+    }
+  }
+
+  void summon(String Effect) {
+
+int effectNumberRandom = -1;
+    boolean randomEffectChosen = false;
+
+    if (Effect.equals("random") == true) {
+      effectNumberRandom = AULib.chooseOneWeighted(effectNumberArray, EffectsWeights);
+      randomEffectChosen = true;
+
+      println("random effect: " + EffectsAvailable[effectNumberRandom] + " chosen");
+    }
+
+    // The number of effectNumberRandom is the number of the position of the effect in the array effectsAvailable
+    if ((effectNumberRandom == 0) || (!randomEffectChosen && Effect.equals("glitter"))) {
+      println("GlitterEffect summoned");
+      glitterEffects.add(new GlitterEffect(this.tripodNumber, this.tubeModulus));
+
+      //To indicate that something is running in tube, we don't want to effects overlying eachother, set to false when removing effect
+      //effectSide0 = true;
+      //effectSide1 = true;
     }
   }
 }

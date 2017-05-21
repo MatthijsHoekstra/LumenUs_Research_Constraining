@@ -1,30 +1,64 @@
-//import spout.*;
+
+import AULib.*;
+import spout.*;
+
 import controlP5.*;
 import AULib.*;
+
+import java.lang.reflect.*;
 
 //---------------------------------------------------------------------------------------------------
 int experimentNumber = -1; //4 possible options
 //Start number -1, because button start adds +1
 
-boolean displayGreenTransition = true;
+boolean inBetweenResearch = true;
 
 boolean startTimer = false;
 int startTimeTimer;
 int currentTimeTimer;
 
-int totalTimeTimer = 60000;
+int totalTimeTimer = 15000;
 
 String testGroupNumberString;
 int testGroupNumber;
 
-int opacityGreenTransition = 0;
+int experimentNumberFinal;
+
 
 boolean startExperiment = false;
+
+
+int counterBalancingGroup[][] = 
+  {
+  {1, 2, 3}, 
+  {1, 3, 2}, 
+  {2, 1, 3}, 
+  {2, 3, 1}, 
+  {3, 1, 2}, 
+  {3, 2, 1}
+};    
+
+
+int[][] brokenTubes = {{}};
+
+String[] EffectsAvailable = {"Glitter"};
+float[] EffectsWeights =    {5, 1};
+
+int numberEffectsAvailable = EffectsAvailable.length;
+
+int[] effectNumberArray = new int[EffectsAvailable.length];
+
 //---------------------------------------------------------------------------------------------------
 
-int numTripods = 24;
+int numTripods = 4;
 int numTubes = numTripods * 3;
 int numLEDsPerTube = 56;
+
+
+//This string defines all the possible effects. Named according to the name of the !!Class of the effect
+//Each effect can be called with summonEffect(<Name of the Effect>)
+String Effects[] = {"Glitter", "Explosion", "Flashing", "Rainbow", "Lavalamp", "Dragonball"};
+
 
 int rectWidth = 9;
 int rectHeight = 8;
@@ -37,13 +71,13 @@ int selectedTube, tubeNumber;
 
 Tube[] tubes = new Tube[numTubes];
 
-//Spout spout;
+Spout spout;
 
 ControlP5 cp5;
 
 void setup() {
   size(1600, 880, OPENGL);
-  frameRate(60);
+  frameRate(45);
   background(0);
   noStroke();
   noSmooth();
@@ -51,8 +85,10 @@ void setup() {
   for (int i=0; i< numTubes; i++) {
     tubes[i] = new Tube(i);
   }
-  
+
   addButtonsOnScreen();
+  
+  brokenTubes();
 
   //drawRaster(); // drawRaster helps us with the LED mapping in ELM
 
@@ -72,22 +108,25 @@ void setup() {
   //}
 
 
- // spout = new Spout(this);
+ spout = new Spout(this);
 }
 
 void draw() {
 
   background(0);
 
+  researchFunctions();
+
   for (int i=0; i<numTubes; i++) {
     tubes[i].update();
   }
+
 
   ShowFrameRate();
 
   selectingSystem();
 
-  drawRaster();
+ // drawRaster();
 
   //spout.sendTexture();
 }
@@ -132,6 +171,14 @@ void keyPressed() {
 
   if (key == 'w') {
     tubes[tubeNumber].isTouched(1);
+  }
+  
+  if (key == 'e') {
+    summonEffect("glitter", 0, 0, 0);
+  }
+  
+  if (key == 'e') {
+    tubes[tubeNumber].addGlitter();
   }
 }
 
