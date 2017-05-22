@@ -89,4 +89,6 @@ Class Rainbow_layers {
     currentTime = 10;
     popStyle();
     popMatrix();
+  }
+}
     
